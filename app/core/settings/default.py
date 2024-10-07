@@ -1,16 +1,22 @@
+import os
 from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+from dotenv import load_dotenv
+
+load_dotenv()
+
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+DEBUG = bool(int(os.getenv('DEBUG', 1)))
+
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'SECRET_KEY')
+
+ALLOWED_HOSTS = ['*']
+
+CSRF_TRUSTED_ORIGINS = ['http://*', 'https://*']
 
 
-SECRET_KEY = None
-
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
-
-INSTALLED_APPS = [
+DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -18,6 +24,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+PROJECT_APPS = [
+    'rup.apps.RupConfig',
+]
+
+PACKAGES = [
+
+]
+
+INSTALLED_APPS = DJANGO_APPS + PACKAGES + PROJECT_APPS
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -34,7 +51,9 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR / 'templates',
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -52,11 +71,12 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': os.getenv('DATABASE_ENGINE', 'django.db.backends.sqlite3'),
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
+ADMIN_URL = os.getenv('DJANGO_ADMIN_URL', 'admin/')
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -74,9 +94,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-RU'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 

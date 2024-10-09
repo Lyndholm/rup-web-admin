@@ -30,7 +30,7 @@ PROJECT_APPS = [
 ]
 
 PACKAGES = [
-
+    'multiselectfield',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + PACKAGES + PROJECT_APPS

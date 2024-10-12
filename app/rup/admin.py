@@ -22,6 +22,7 @@ class StudentAdmin(admin.ModelAdmin):
         "email",
         "phone_number",
         "tg_id",
+        "came_from",
     ]
 
 
@@ -46,6 +47,7 @@ class DepartmentAdmin(admin.ModelAdmin):
         "address",
         "phone_number",
         "email",
+        "comment",
     ]
 
 
@@ -64,6 +66,17 @@ class RupEntryAdmin(admin.ModelAdmin):
         "semester",
         "academic_year",
         "statement_number",
+    ]
+
+
+@admin.register(models.RupFile)
+class RupFileAdmin(admin.ModelAdmin):
+    list_display = (
+        "student",
+        "file",
+    )
+    search_fields = [
+        "student__name",
     ]
 
 

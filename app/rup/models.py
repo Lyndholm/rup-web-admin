@@ -56,6 +56,12 @@ class Student(TimeStampedModel):
         null=False,
         blank=False,
     )
+    came_from = models.CharField(
+        "Откуда перевелся",
+        max_length=256,
+        null=True,
+        blank=True,
+    )
 
     class Meta:
         verbose_name = "Студент"
@@ -109,6 +115,12 @@ class Department(TimeStampedModel):
     )
     email = models.EmailField(
         "E-mail",
+        null=True,
+        blank=True,
+    )
+    comment = models.CharField(
+        "Дополнительно",
+        max_length=512,
         null=True,
         blank=True,
     )
@@ -193,6 +205,25 @@ class RupEntry(TimeStampedModel):
     class Meta:
         verbose_name = "РУП"
         verbose_name_plural = "РУПы"
+        ordering = ["-id"]
+
+
+class RupFile(TimeStampedModel):
+    student = models.ForeignKey(
+        Student,
+        null=False,
+        blank=False,
+        on_delete=models.CASCADE,
+        related_name="rup_files",
+        verbose_name="Студент",
+    )
+    file = models.FileField(
+        "Файл",
+    )
+
+    class Meta:
+        verbose_name = "Файл РУП"
+        verbose_name_plural = "Файлы РУПов"
         ordering = ["-id"]
 
 

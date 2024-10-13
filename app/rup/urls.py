@@ -1,16 +1,39 @@
-from django.urls import include, path
-from rest_framework.routers import DefaultRouter
+from django.urls import include, path, re_path
+from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
+from rest_framework import permissions
 
-from . import views
+from .routers import router
 
-router = DefaultRouter()
-router.register(r"students", views.StudentViewSet)
-router.register(r"subjects", views.SubjectViewSet)
-router.register(r"departments", views.DepartmentViewSet)
-router.register(r"rup-entries", views.RupEntryViewSet)
-router.register(r"rup-files", views.RupFileViewSet)
-router.register(r"reminders", views.ReminderViewSet)
+schema_view = get_schema_view(
+    openapi.Info(
+        title="RUP API",
+        default_version="v1",
+        description="API documentation for RUP",
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
+
 
 urlpatterns = [
-    path("api/", include(router.urls)),
+    path(
+        "swagger/",
+        schema_view.with_ui("swagger", cache_timeout=0),
+        name="schema-swagger-ui",
+    ),
+    path(
+        "redoc/",
+        schema_view.with_ui("redoc", cache_timeout=0),
+        name="schema-redoc",
+    ),
+    re_path(
+        r"^swagger(?P<format>\.json|\.yaml)$",
+        schema_view.without_ui(cache_timeout=0),
+        name="schema-json",
+    ),
+    path(
+        "api/",
+        include(router.urls),
+    ),
 ]

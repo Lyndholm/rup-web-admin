@@ -268,3 +268,24 @@ class BotPhrase(TimeStampedModel):
         verbose_name = "Фраза бота"
         verbose_name_plural = "Фразы бота"
         ordering = ["-id"]
+
+
+class Question(models.Model):
+    question = models.TextField(
+        "Вопрос",
+        null=False,
+        blank=False,
+    )
+    answer = models.TextField(
+        "Ответ",
+        null=False,
+        blank=False,
+    )
+
+    def __str__(self) -> str:
+        return self.question
+
+    class Meta:
+        verbose_name = "Вопрос"
+        verbose_name_plural = "Вопросы"
+        ordering = ["-id"]

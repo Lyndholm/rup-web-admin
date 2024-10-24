@@ -104,3 +104,15 @@ class BotPhraseAdmin(admin.ModelAdmin):
         "key",
         "value",
     ]
+
+
+@admin.register(models.Question)
+class QuestionAdmin(admin.ModelAdmin):
+    list_display = (
+        "question",
+        "answer",
+    )
+    search_fields = [
+        "question",
+        "answer",
+    ]

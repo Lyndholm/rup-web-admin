@@ -33,7 +33,7 @@ if [ "$DEBUG" = "0" ]; then
     echo "Starting django app in PROD mode"
 
     python manage.py migrate --no-input
-    python manage.py collectstatic --noinput
+    python manage.py collectstatic --noinput --clear
     gunicorn core.wsgi:application --bind 0.0.0.0:8000
 elif [ "$DEBUG" = "1" ]; then
     echo "Starting django app in DEBUG mode"

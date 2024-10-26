@@ -1,0 +1,41 @@
+FROM python:3.11-alpine AS builder
+
+WORKDIR /app
+
+RUN apk update && \
+    apk add \
+    gcc postgresql-dev python3-dev musl-dev
+
+COPY requirements.txt .
+RUN pip install --upgrade pip
+RUN pip wheel --no-cache-dir --no-deps --wheel-dir /app/wheels -r requirements.txt
+
+
+FROM python:3.11-alpine
+
+ENV HOME=/home/www
+ENV APP_DIR=$HOME/app
+
+RUN mkdir -p $HOME && mkdir $APP_DIR
+RUN mkdir -p $APP_DIR/staticfiles $APP_DIR/media
+RUN addgroup -S www && adduser -S -G www www
+
+WORKDIR $APP_DIR
+
+RUN apk add --no-cache postgresql-libs
+
+COPY --from=builder /app/wheels /wheels
+COPY --from=builder /app/requirements.txt .
+RUN pip install --no-cache /wheels/*
+
+COPY ./entrypoint.sh .
+RUN sed -i "s/\r$//g" $APP_DIR/entrypoint.sh && \
+    chmod +x $APP_DIR/entrypoint.sh
+
+COPY . .
+
+RUN chown -R www:www $HOME
+
+USER www
+
+ENTRYPOINT $APP_DIR/entrypoint.sh

@@ -31,3 +31,8 @@ class RupFileViewSet(viewsets.ModelViewSet):
 class ReminderViewSet(viewsets.ModelViewSet):
     queryset = models.Reminder.objects.all()
     serializer_class = serializers.ReminderSerializer
+
+
+class QuestionViewSet(viewsets.ModelViewSet):
+    queryset = models.Question.objects.all()
+    serializer_class = serializers.QuestionSerializer

@@ -62,6 +62,10 @@ class Student(TimeStampedModel):
         null=True,
         blank=True,
     )
+    comment = models.TextField(
+        "Комментарий",
+        null=True,
+    )
 
     class Meta:
         verbose_name = "Студент"
@@ -118,9 +122,8 @@ class Department(TimeStampedModel):
         null=True,
         blank=True,
     )
-    comment = models.CharField(
+    comment = models.TextField(
         "Дополнительно",
-        max_length=512,
         null=True,
         blank=True,
     )
@@ -201,6 +204,10 @@ class RupEntry(TimeStampedModel):
     deadline = models.DateField(
         "Срок сдачи",
     )
+    closed = models.BooleanField(
+        "Закрыт",
+        default=False,
+    )
 
     class Meta:
         verbose_name = "РУП"
@@ -221,9 +228,38 @@ class RupFile(TimeStampedModel):
         "Файл",
     )
 
+    def __str__(self) -> str:
+        return self.file.name
+
     class Meta:
         verbose_name = "Файл РУП"
         verbose_name_plural = "Файлы РУПов"
+        ordering = ["-id"]
+
+
+class Meeting(models.Model):
+    student = models.ForeignKey(
+        Student,
+        null=False,
+        blank=False,
+        on_delete=models.CASCADE,
+        related_name="meetings",
+        verbose_name="Студент",
+    )
+    date = models.DateTimeField(
+        "Дата встречи",
+        null=False,
+        blank=False,
+    )
+    comment = models.TextField(
+        "Комментарий",
+        null=True,
+        blank=True,
+    )
+
+    class Meta:
+        verbose_name = "Встреча"
+        verbose_name_plural = "Встречи"
         ordering = ["-id"]
 
 
@@ -239,6 +275,10 @@ class Reminder(models.Model):
         related_name="reminders",
         verbose_name="Студент",
     )
+    sent = models.BooleanField(
+        "Отправлено",
+        default=False,
+    )
 
     class Meta:
         verbose_name = "Напоминание"
@@ -246,7 +286,7 @@ class Reminder(models.Model):
         ordering = ["-id"]
 
 
-class BotPhrase(TimeStampedModel):
+class BotPhrase(models.Model):
     key = models.CharField(
         "Ключ",
         max_length=128,
@@ -254,9 +294,8 @@ class BotPhrase(TimeStampedModel):
         null=False,
         blank=False,
     )
-    value = models.CharField(
+    value = models.TextField(
         "Фраза",
-        max_length=2048,
         null=False,
         blank=False,
     )
@@ -280,6 +319,10 @@ class Question(models.Model):
         "Ответ",
         null=False,
         blank=False,
+    )
+    hidden = models.BooleanField(
+        "Скрыт",
+        default=False,
     )
 
     def __str__(self) -> str:

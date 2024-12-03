@@ -3,6 +3,11 @@ from django.contrib import admin
 from . import models
 
 
+class RupFileInline(admin.StackedInline):
+    model = models.RupFile
+    extra = 0
+
+
 @admin.register(models.Student)
 class StudentAdmin(admin.ModelAdmin):
     list_display = (
@@ -23,7 +28,9 @@ class StudentAdmin(admin.ModelAdmin):
         "phone_number",
         "tg_id",
         "came_from",
+        "comment",
     ]
+    inlines = [RupFileInline]
 
 
 @admin.register(models.Subject)
@@ -59,7 +66,11 @@ class RupEntryAdmin(admin.ModelAdmin):
         "semester",
         "academic_year",
         "statement_number",
+        "closed",
     )
+    list_filter = [
+        "closed",
+    ]
     search_fields = [
         "student__name",
         "subject__name",
@@ -80,14 +91,28 @@ class RupFileAdmin(admin.ModelAdmin):
     ]
 
 
+@admin.register(models.Meeting)
+class MeetingAdmin(admin.ModelAdmin):
+    list_display = (
+        "student",
+        "date",
+    )
+    search_fields = [
+        "student__name",
+        "comment",
+    ]
+
+
 @admin.register(models.Reminder)
 class ReminderAdmin(admin.ModelAdmin):
     list_display = (
         "date",
         "student",
+        "sent",
     )
     list_filter = [
         "date",
+        "sent",
     ]
     search_fields = [
         "student__name",
@@ -111,7 +136,11 @@ class QuestionAdmin(admin.ModelAdmin):
     list_display = (
         "question",
         "answer",
+        "hidden",
     )
+    list_filter = [
+        "hidden",
+    ]
     search_fields = [
         "question",
         "answer",

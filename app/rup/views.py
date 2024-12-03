@@ -40,6 +40,7 @@ class RupEntryViewSet(viewsets.ModelViewSet):
 class RupFileViewSet(viewsets.ModelViewSet):
     queryset = models.RupFile.objects.all()
     serializer_class = serializers.RupFileSerializer
+    filterset_fields = ['student']
 
 
 class ReminderViewSet(viewsets.ModelViewSet):

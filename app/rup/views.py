@@ -50,3 +50,8 @@ class ReminderViewSet(viewsets.ModelViewSet):
 class QuestionViewSet(viewsets.ModelViewSet):
     queryset = models.Question.objects.all()
     serializer_class = serializers.QuestionSerializer
+
+
+class MeetingViewSet(viewsets.Meetings):
+    queryset = models.Meeting.objects.all()
+    serializer_class = serializers.MeetingSerializer

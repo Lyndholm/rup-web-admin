@@ -43,3 +43,9 @@ class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Question
         fields = "__all__"
+
+
+class MeetingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Meeting
+        fields = "__all__"

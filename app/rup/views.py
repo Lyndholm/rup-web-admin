@@ -52,6 +52,6 @@ class QuestionViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.QuestionSerializer
 
 
-class MeetingViewSet(viewsets.Meetings):
+class MeetingViewSet(viewsets.ModelViewSet):
     queryset = models.Meeting.objects.all()
     serializer_class = serializers.MeetingSerializer

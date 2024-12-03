@@ -228,6 +228,12 @@ class RupFile(TimeStampedModel):
     file = models.FileField(
         "Файл",
     )
+    tg_file_id = models.CharField(
+        "ID файла в telegram",
+        max_length=128,
+        null=True,
+        blank=True,
+    )
 
     def __str__(self) -> str:
         return self.file.name

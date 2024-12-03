@@ -65,6 +65,7 @@ class Student(TimeStampedModel):
     comment = models.TextField(
         "Комментарий",
         null=True,
+        blank=True,
     )
 
     class Meta:

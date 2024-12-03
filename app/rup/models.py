@@ -166,7 +166,7 @@ class RupEntry(TimeStampedModel):
         blank=True,
         on_delete=models.SET_NULL,
         related_name="rup_entries",
-        verbose_name="Предмет",
+        verbose_name="Кафедра",
     )
     semester = models.SmallIntegerField(
         "Семестр",
